@@ -3,7 +3,9 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.status import (
+    HTTP_200_OK,
     HTTP_201_CREATED,
+    HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
 )
 
@@ -56,6 +58,23 @@ class CustomerView(APIView):
         }
               
         return Response(context)
+    
+    def post(self, request):
+        s_customer = CustomerSerializer(data = request.data, context={"request": request})
+        if s_customer.is_valid():
+            s_customer.save()
+            return Response(s_customer.data, status=HTTP_201_CREATED)
+        return Response(s_customer.errors, status=HTTP_400_BAD_REQUEST)
+
+
+    def put(self, request, pk):
+        customer = Customer.objects.get(pk=pk)
+        s_customer = CustomerSerializer(customer, data=request.data, context={"request":request})
+        if s_customer.is_valid():
+            s_customer.save()
+            return Response(s_customer.data, status=HTTP_200_OK)
+        return Response(s_customer.errors, status=HTTP_400_BAD_REQUEST) 
+           
 
 class OrderView(APIView):
     
@@ -65,3 +84,18 @@ class OrderView(APIView):
             s_order.save()
             return Response(s_order.data, status=HTTP_201_CREATED)
         return Response(s_order.errors, status=HTTP_400_BAD_REQUEST)
+
+
+    def put(self, request, pk):
+        order = Order.objects.get(pk=pk)
+        s_order = OrderSerializer(order, data=request.data, context={"request": request})
+        if s_order.is_valid():
+            s_order.save()
+            return Response(s_order.data, status=HTTP_200_OK)
+        return Response(s_order.errors, status=HTTP_400_BAD_REQUEST)
+
+
+    def delete(self, request, pk):
+        order = Order.objects.get(pk=pk)
+        order.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
