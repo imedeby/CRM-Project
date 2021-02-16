@@ -20,5 +20,5 @@ from accounts import urls as accounts_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", include(accounts_urls) , name="home" )
+    path("api/", include(accounts_urls) , name="home" )
 ]
