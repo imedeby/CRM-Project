@@ -4,9 +4,10 @@ from django.db import models
 
 class Customer(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, null=True)
+    firstname = models.CharField(max_length=30, null=True)
+    lastname = models.CharField(max_length=30, null=True)
     phone = models.CharField(max_length=200, null=True)
-    email = models.CharField(max_length=200, null=True)
+    email = models.EmailField(max_length=200, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
@@ -43,5 +44,7 @@ class Order(models.Model):
     id = models.AutoField(primary_key=True)
     customer = models.ForeignKey(Customer, null=True, on_delete= models.SET_NULL)
     product = models.ForeignKey(Product, null=True, on_delete= models.SET_NULL)
+    shippingAddress = models.CharField(max_length=200, null=True)
+    shippingCost = models.FloatField(null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
