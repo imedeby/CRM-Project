@@ -9,7 +9,7 @@ class CustomerSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class TagSerializer(Serializer):
+class TagSerializer(ModelSerializer):
 
     class Meta:
         model = Tag
