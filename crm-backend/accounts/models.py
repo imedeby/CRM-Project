@@ -13,15 +13,6 @@ class Customer(models.Model):
     def __str__(self):
         return self.firstname
 
-
-class Tag(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, null=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Product(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=200, null=True)
@@ -29,12 +20,17 @@ class Product(models.Model):
     quantity = models.FloatField(null=True)
     description = models.CharField(max_length=200, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
-    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200, null=True)
+    product = models.ForeignKey(Product, null=True, on_delete= models.SET_NULL)
 
+    def __str__(self):
+        return self.name
 
 class Order(models.Model):
     STATUS = (

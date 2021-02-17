@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from .models import Product,Customer,Tag,Order
+from .models import *
 
 class CustomerSerializer(ModelSerializer):
 
@@ -9,19 +9,18 @@ class CustomerSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class TagSerializer(ModelSerializer):
-
-    class Meta:
-        model = Tag
-        fields = "__all__"
-
-
 class ProductSerializer(ModelSerializer):
-  
-    tags = TagSerializer(many=True)
 
     class Meta:
         model = Product  
+        fields = "__all__"
+
+class TagSerializer(ModelSerializer):
+
+    product = ProductSerializer()
+
+    class Meta:
+        model = Tag
         fields = "__all__"
 
 
