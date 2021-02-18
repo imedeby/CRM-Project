@@ -33,7 +33,7 @@ class Home(APIView):
         }
               
         return Response(context)
-
+        
 
 class ProductView(APIView):
 
